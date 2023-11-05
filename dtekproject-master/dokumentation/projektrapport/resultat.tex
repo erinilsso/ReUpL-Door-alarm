@@ -1,0 +1,35 @@
+\section{Resultat}
+\label{sec:resultat}
+
+
+
+Ett säkerhetssystem har utvecklats med hjälp av tre mikrokontroller och ett antal sensorer. En mikrokontroller fungerar som centralenhet, denna kommunicerar med två periferienheter som i sin tur har uppkopplade sensorer. Säkerhetssystemets funktionalitet har verifierats med ett flertal tester. Testerna utfördes på enhetsnivå och på systemet som helhet. De utförda testerna visar att systemet fungerar stabilt med pålitlig kommunikation mellan enheter och sensorer, samt att sensorerna  kan konfigureras så de agerar som önskat. Det övergripande testet, T17 (bilaga 17), som presenteras nedan visar översiktligt hela systemets funktionalitet, och mer detaljerade resultat finns under rubrikerna nedan. 
+
+
+
+\subsection{Nätverkslagret}
+
+CAN-nätverket som helhet fungerar väl. Meddelanden tas emot och hanteras korrekt. Prioritering av meddelanden fungerar utan krockar enligt test T5 (bilaga 5). Systemet klarar av när en störenhet skickar stora mängder data på CAN-bussen. I test T6 (bilaga 6) visas att systemet klarar av när en störenhet skickar ping-meddelanden konstant utan fördröjning så länge systemet skickar riktiga meddelanden mer sällan än 500 gånger per sekund.
+\newline\newline
+En störenhet som skickar slumpade meddelanden kan systemet inte hantera då viss data som skickas inte är av samma struktur som ett faktiskt meddelande.
+Detta är en identifierad svaghet då CAN-protokollet är okrypterat. Dessa resultat visar att systemet uppfyller krav ett enligt \ref{sec:kravspec}. 
+
+\subsection{Centralenheten}
+Test T1 (bilaga 1) visar att centralenheten korrekt skapar en lista med alla uppkopplade enheters ID vid startup-fasen (se \ref{sec:centrallogik}). Detta test verifierar att systemet ansluter enheter modulärt, men visar även att kommunikationen mellan de anslutna enheterna fungerar som den ska. Enheterna svarar punktligt på alla ping-meddelanden som centralenheten skickar ut, och när en enhet blir frånkopplad går larmet. Dessa tester pekar på att systemet uppfyller krav ett, fem, och åtta enligt \ref{sec:kravspec}. 
+\newline \newline 
+T19 (bilaga 19) visar att information om enheternas konfigurationer lagras och uppdateras korrekt, enligt krav fem. Att meddelanden från enheter med okända ID-nummer ignoreras påvisas i T6 (bilaga 6). Därav uppfylls krav två enligt \ref{sec:kravspec}. 
+\newline \newline
+Centralenhetens IO-funktioner har förmågan att utföra samtliga kommandon begärda från USART. Dessa inmatningar används av centralenheten för att konfigurera periferienheterna eller begära information om systemet. Denna funktionalitet visades i T15 (bilaga 15). Knappsatsen brukades för att stänga av ett aktivt larm, och detta fungerade vid upprepade försök i test T10 (bilaga 10). Dessa tester visar att krav tre är uppfyllt enligt \ref{sec:kravspec}.
+
+\subsection{Dörrenheten}
+%krävs åter igen mycket tester 
+%bevisa att 8 dörrar stöds?
+Test T12 (bilaga 12) visar att dörrenheten kan larma lokalt. Testet visar också att en dörr kan tända en diod för att markera att den är ställd till att inte larma. Test T13 (bilaga 13) visar på att dörrar kan ställas att larma eller inte från centralenheten. Slutligen visar test T15 (bilaga 15) en större överblick på att funktionaliteten är korrekt. Där demonstreras att tidsgränser går att konfigurera och att enheten kan utlösa det globala larmet. Dessa resultat visar att dörrenheten uppfyller krav fyra och sex enligt \ref{sec:kravspec}.
+
+
+\subsection{Larmenheten}
+Avståndssensorn och vibrationssensorn är funktionella. Avståndssensorn larmar lokalt när något kommer närmre än ett konfigurerat avstånd, vilket visas i test T2 (bilaga 2). T4 (bilaga 4) visar att det globala larmet aktiveras korrekt när avståndet är under ett andra tröskelvärde. Systemtestet T17 (bilaga 17) visar att larmenheten kan konfigureras av centralenheten eller själv kalibrera larmavståndet på order från centralenheten. Resultaten ovan visar att larmenheten uppfyller krav fyra och sex enligt \ref{sec:kravspec}.
+\newline\newline
+Test T7 (bilaga 7) visar att om inget pingmeddelande från centralenheten är mottaget inom önskat tidsintervall utlöses larmet. Det globala larmet kan även stängas av och på från centralenheten. Detta visas i test T8 (bilaga 8). Dessa resultat visar att larmenheten uppfyller krav fem och sju enligt \ref{sec:kravspec}.
+\newline\newline
+Det utfördes även ett test på avståndssensorns felmarginal, T4 (bilaga 4), vilket visade att det uppmätta avståndet var mycket konsekvent och hade en felmarginal på under en centimeter.

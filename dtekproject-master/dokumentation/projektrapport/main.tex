@@ -1,0 +1,74 @@
+\documentclass[a4paper]{article}
+\usepackage{float}
+\usepackage[swedish]{babel}
+
+\usepackage[fixlanguage]{babelbib}
+
+\selectbiblanguage{swedish}
+\usepackage[nottoc]{tocbibind}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{makecell}
+\usepackage{hyperref}
+\usepackage{pdfpages}
+\usepackage[]{ragged2e}
+\setlength\parindent{0pt} %changes indentation size to 0
+\usepackage[toc,page]{appendix}
+
+\begin{document}
+
+\title{
+  Säkerhetssystem med MD407 \\
+  \large Utveckling av ett MD407-baserat säkerhetssystem med CAN-kommunikation}
+\date{2020-11-01}
+
+\author{ Philip Antonsson, Felix Bråberg, Linus Haraldsson,  Gabriel Käll,\\  Erik Nilsson, Sebastian Sjögren, Simon Widerberg \\Datatekniskt projekt}
+
+\maketitle
+\thispagestyle{empty}
+\newpage
+\thispagestyle{empty}
+\newpage
+
+
+%Ni skriver all text i projektplanen med ett projektinternt perspektiv.
+%Detta betyder att ingenstans ska det framgå att projektet drivs inom
+%ramen för en kurs i utbildningssyfte, utan att detta är ett renthttps://www.overleaf.com/project/5f5652a06c50130001db661f
+%tekniskt utvecklingsprojekt.
+
+%Eftersom de tre första avsnitten, Syfte, Mål och Bakgrund, återkommer
+%(helt intakta, om de är välskrivna) i projektrapporten, tveka inte över
+
+\tableofcontents
+\pagenumbering{gobble}
+\newpage
+%Ordlista
+\input{dokumentation/projektrapport/ordlista}
+\newpage
+%Introduktion
+\input{dokumentation/projektrapport/introduktion}
+\newpage
+%Teknisk bakgrund
+\input{dokumentation/projektrapport/teknisk_bakgrund}
+\newpage
+%Design
+\input{dokumentation/projektrapport/design}
+\newpage
+%Teknisk beskrivning
+\input{dokumentation/projektrapport/teknisk_beskrivning}
+\newpage
+%Resultat
+\input{dokumentation/projektrapport/resultat}
+\newpage
+%Slutsatser
+\input{dokumentation/projektrapport/slutsatser}
+\newpage
+
+\bibliographystyle{IEEEtran} 
+\bibliography{referenser}
+ 
+\newpage
+\input{dokumentation/projektrapport/bilagor}
+\end{document}

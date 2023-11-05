@@ -1,0 +1,90 @@
+\section{Introduktion}
+\label{sec:intro}
+
+\subsection{Syfte}
+\label{sec:syfte}
+\pagenumbering{arabic}
+\setcounter{page}{1} % Set the page counter to 3
+
+%Syftet beskriver koncist varför projektet ska genomföras och vad ett
+%uppfyllande av de tekniska målen leder till.
+
+%Vanligtvis är syftet så klart ledande för uppgiften man löser. Här är
+%det lite tvärt om eftersom ni fått en uppgift och måste komma på ett
+%syfte för den, men det ska nog gå bra.
+
+%Ha gärna med lite fakta i syftesparagrafen. Istället för att bara skriva
+%självklarheter som att det är bra med larm ifall det kommer tjuvar så
+%kan man ha med några siffror på vad larmbranchen omsätter till exempel
+%eller hur vanligt det är med inbrott eller något.
+År 2018 var det cirka 82 000, eller 1,8 procent, av rikets hushåll som rapporterade fall av bostadsinbrott i Sverige. Detta antal var detsamma år 2016 och 2017 \cite{ntu:2019}. Enligt Statistiska centralbyrån har den vanligaste lägenhetstypen två rum och kök \cite{scb:2018}. Det är dock inte en majoritet som bor så, och bostadsstorlekar samt bostadstyper varierar. 
+Därmed är det viktigt att säkra larm- och låssytem finns till för medborgares säkerhet, och att de är anpassade för deras bostäder. 
+Projektets syfte är därför att ta fram ett larm- och låssystem baserat på mikrokontrollern MD407 som också är modulärt. 
+
+%Avslutningsvis utväderades arbetet med hänsyn till funktinalitet, säkerhet och %vidarutveklingsmöjligheter. 
+\subsection{Mål}
+\label{sec:mål}
+%I detta avsnitt beskrivs koncist samtliga övergripande tekniska mål med
+%projektet, det vill säga, vad ska konstrueras. Mycket av det här
+%framgår så klart i uppgiften.
+
+%Se till att tydligt ange målsättningen vad gäller de extrauppgifter som
+%finns tillgängliga i projektdirektiven. Ni kan dela upp eventuella
+%extrauppgifter i två olika prioritetsgrader. Att ta på sig en massa
+%extrauppgifter här som ni inte ens försöker genomföra är inte bra.
+%Försök göra en realistisk bedömning av vad ni hinner med även om det är
+%svårt.
+
+%De mål som anges här kommer att styra projektets utveckling. När
+%projektet närmar sig sitt slut och den slutliga projektrapporten lämnas
+%in kommer beställaren (läraren i vårt fall) att kritiskt analysera hur
+%väl projektet lyckats genom att jämföra planens mål med den tekniska
+%konstruktion som redovisas i projektrapporten.
+
+Projektets mål var att utveckla ett larm- och låssystem med hjälp av en centralenhet samt två periferienheter och en störenhet. De två periferienheterna var ett dörrlarm och ett rörelselarm. 
+Övergripligt används periferienheterna för att interagera med de fysiska sensorerna och larmen. Centralenheten används för att hantera all information samt kommunikation. Störenheten användes för att stresstesta systemet. Enheterna skall kommunicera med varandra över en gemensam buss med hjälp av protokollet Controller Area Network (CAN).\ref{sec:ordlista} 
+\newline\newline
+Två utökningar av grundsystemet planerades. Den ena var att rörelselarmet inte skall larma till centralenheten förrän det befinner sig någon inom en viss variabel räckvidd från enheten. Alltså skall rörelselarmet endast larma lokalt tills räckvidden blir överskriden av någon. Den andra planerade utökningen var att ljudet som uppgör larmet skulle sticka ut och vara så tydligt som möjligt. Prioriteringen av utökningarna var i samma ordning som de introducerades.
+
+\subsubsection{Kravspecifikation}
+\label{sec:kravspec}
+Följande kravspecifikation har utvecklats för att uppnå målet och täcka de nödvändiga funktionerna av ett säkerhetssystem:
+\begin{enumerate}
+    \item Enheterna ska kunna kommunicera genom CAN-bussen på ett konsekvent sätt.
+    \label{itm:krav1}
+    \item Centralenheten ska lagra aktuell information om alla enheter.
+    \label{itm:krav2}
+    \item Centralenheten ska presentera den viktigaste informationen för 
+    användaren genom USART, Universal Synchronous/Asynchronous Reciever/Transmitter.
+    \label{itm:krav3}
+    \item Periferienheterna ska vara konfigurerbara genom USART.
+    \label{itm:krav4}
+    \item Det globala larmet ska utlösas ifall centralenheten förlorar kontakten med en periferienhet.
+    \label{itm:krav5}
+    \item Periferienheterna ska tillämpa ett lokalt larm om sensorer blir triggade, och larma globalt om det behövs.
+    \label{itm:krav6}
+    \item Om larmet har gått kan det avaktiveras från centralenheten genom att en kod matas in på en knappsats.
+    \label{itm:krav7}
+    \item Användaren ska kunna koppla upp systemet med de periferienheter som behövs, och inte vara låst till en speciell konfiguration.
+    \label{itm:krav8}
+\end{enumerate}
+Punkt ett togs fram för att ett system behöver förutsägbar kommunikation för att vara pålitligt. Annars kan en mängd problem uppstå, som att sidoeffekter förekommer vid konfiguration, e.t.c. Punkt två ansågs också vara väsentlig; att bedöma när ett larm ska utlösas kräver aktuell information om systemet. För att användaren ska kunna ta del av denna aktuella information måste den presenteras genom USART på ett förståeligt sätt. Informationen presenteras för användaren så den kan konfigurera perifirienheterna genom USART. Därför behövs punkt tre och fyra som krav.
+De tre punkterna innan punkt åtta är relaterade till systemets primära funktion - att larma på och av vid rätt tillfälle. Därför är krav fem, sex och sju nödvändiga för ett fungerande system. 
+Punkt åtta är obligatorisk för systemets modularitet, och krävs därför i detta larmsystem.
+
+\subsection{Arbetsmetod}
+\label{sec:arbetsmetod}
+Arbetet delades i början av projektet upp i åtta delar, vilka beskrivs i sektion \ref{sec:Design}. Varje gruppmedlem blev tilldelad en primär deluppgift samt en eller flera närliggande uppgifter att assistera med. 
+\newline \newline
+Projektets mjukvara kodades i C med hjälp av textredigeraren Codelite. Tre enheter med olik funktionalitet skulle utvecklas, och det bestämdes att en uppsättning kod per enhet var optimalt. Detta gjorde mjukvaruutvecklingen mer effektiv eftersom koden för de tre enheterna kunde skrivas parallellt, och tester kunde utföras individuellt innan systemets sammankoppling. Testerna på enheternas mjukvara utfördes i hierarkisk ordning. De minsta delarna av programmen testades först, eftersom dessa delar inte förlitar sig på någon annan kod. Efter det testades större och större block av kod, och till slut hela enheten. Testerna på enhetsnivå dokumenterades och diskuteras i avsnitt \ref{sec:resultat}.
+\newline \newline
+För att abstrahera bort svårskriven lågnivåkod användes ''STM32F4xx Standard Peripherals Library''. Det är ett programvarubibliotek för processorn i MD407 som underlättar användningen av diverse hårdvara som enheten stödjer. En del hårdvara tillhörande till dörrenheten och larmenheten behövdes dock utvecklas på egen hand. Den utvecklades med hjälp av en kopplingsplatta, el-komponenter, och egenskrivna funktioner. 
+\\ \\
+Arbetet på de enskilda delenheterna skedde på separata grenar i github. Om en gren skulle slås ihop med master grenen krävdes att följande kriterier uppfylldes.
+\begin{enumerate}
+    \item Koden var godkänd av en annan gruppmedlem.
+    \item Om en skriven funktion inte var trivial krävdes en testfunktion för att bevisa dess funktionalitet.
+    \item Koden jämfördes mot och rättades efter kodkonventionsdokumentet. 
+    \item Funktionalitetstester utfördes och testdokumenten bifogades.
+\end{enumerate}
+

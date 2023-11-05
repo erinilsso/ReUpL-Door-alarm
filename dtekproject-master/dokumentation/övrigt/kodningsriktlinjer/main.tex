@@ -1,0 +1,239 @@
+%
+\documentclass[a4paper]{article}
+\usepackage[swedish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\definecolor{green}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{purple}{rgb}{0.58,0,0.82}
+\definecolor{bacColour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{CStyle}{
+    backgroundcolor=\color{bacColour},   
+    commentstyle=\color{green},
+    keywordstyle=\color{purple},
+    numberstyle=\tiny\color{gray},
+    stringstyle=\color{purple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    language=C
+}
+%
+
+%%https://www.doc.ic.ac.uk/lab/cplus/cstyle.html
+
+\title{Kodningsriktlinjer För Datatekniskt Projekt}
+\author{Gabriel Käll}
+
+\begin{document} 
+
+\maketitle
+\pagenumbering{gobble}
+
+\newpage
+\tableofcontents
+\pagenumbering{gobble}
+
+\newpage
+\pagenumbering{arabic}
+
+\section{Introduktion}
+
+\label{sec:intro}
+
+\subsection*{Varför är kodningsriktlinjer nödvändiga?}
+    Att ha en bra struktur är mycket viktigt när man kodar. Det hjälper till med att fånga fel innan dom blir problematiska, gör koden allmänt mer läsbar, och är en bra grund att falla tillbaka på och kolla igenom då programmet beter sig oväntat.
+    Detta är ytterst viktigt i grupparbeten, både för att göra den slutgiltiga produkten mer sammanhängande, men också för att göra det lättare för gruppmedlemmarna att förstå varandras kod. 
+    
+\section{Referenser}
+I denna text kommer \cite{spencer:2008} användas som grundläggande källa för konventionerna. Det är en modifierad version av "Indian Hill C Style", enligt källan. 
+I slutändan spelar det mest roll om man håller sig till en standard och är konsekvent, så det finns inte mycket att säga om varför denna standard skulle vara bättre. 
+    
+
+\section{Riktlinjer - C}
+
+\subsection{Språk}
+Alla namn, kommentarer och annat språk som inte är kod ska skrivas på \(Engelska\).
+
+\subsection{Namngivning} 
+
+    \begin{itemize}
+    
+    \item Makrodefinitioner, konstanter, typedefs och Enum-konstanter skrivs med stora bokstäver. Ord separeras med '\_'.\\
+    Exempel:
+    \begin{lstlisting}
+    #define MAX_POINTS 2
+    enum day{MON, TUE};
+    \end{lstlisting}
+    
+    \item Funktioner skrivs med små bokstäver och ord separeras med '\_'. 
+    \begin{lstlisting}
+    int point_counter(void);
+    \end{lstlisting}
+    
+    \item Övriga variabelnamn skrivs med små bokstäver. Håll dessa korta men fortfarande beskrivande. Det är värt att fundera på vad variabler ska heta.
+    Notering:
+    Om dessa börjar bli långa och förkortning av namn blir otydligt, separera ord med '\_'.
+    
+    \end{itemize}
+    
+\subsection{Kommentarer}
+
+    \begin{itemize}
+    
+    \item Kommentarer ska beskriva vad som händer och hur det görs (om det är oklart). Det är viktigt att kommentera gällande buggar / restriktioner. Undvik att skriva kommentarer som inte är relaterade till koden i närheten. 
+    
+    \item Små kommentarer:
+    Undvik att kommentera på för låg nivå, d.v.s. att kommentera som man gör i Assembler. (en kommentar på varje line om vad koden gör) Förklara \(vad\) som händer, inte \(hur\) det händer. \\\\
+    Exempel: Istället för att skriva ''sum of numbers divided by n'', skriv ''compute mean''.
+    
+    \item Kommentarer som beskriver klasser, algoritmer, datastrukturer ska vara \(blockkommentarer\).
+    \\
+    Exempel: 
+    \begin{lstlisting}
+   /*
+    * Block comment
+    * 
+    */
+    \end{lstlisting}
+    
+    \item Om t.ex. funktioner behöver grupperas, använd kommentarsstandarden som visas i \ref{sec:whitespace}.
+    
+    \end{itemize}
+
+\subsection{Whitespace} 
+\label{sec:whitespace}
+    \begin{itemize}
+    
+    \item Inuti ett block ska allt indenteras 1 tab in. 
+    Exempel:
+    \begin{lstlisting}
+    if (1) {
+        h = 0;
+    }
+    \end{lstlisting}
+    
+    \item Det ska vara 1 blank line mellan funktioner.
+    Om du har separerat funktionerna i olika grupper ska det vara 4 lines mellan slutet av förra gruppen till den nya. 
+    Exempel:
+    \begin{lstlisting}
+    /*General object funcs*/
+    POBJECT obj_init(PGEOMETRY g, int x, int y,int dirx, int diry) {
+    	...
+    }
+    
+    void obj_deinit(POBJECT p) {
+    	free(p);						
+    }
+
+
+
+
+    /*Collisions*/
+    int objects_overlap(POBJECT o1, POBJECT o2) {
+        int x  = o1 -> posx;
+        int y  = o1 -> posy;
+    ..
+    \end{lstlisting}
+    
+    \subsubsection{''Måsvingar''} 
+    \label{sec:måsvingar}
+    \begin{itemize}
+        \item Måsvingar som används i samband med ''block'' ska skrivas  såhär:   
+    \begin{lstlisting}
+    void function(int i) { 
+    ...
+    }
+    
+    if (1) {
+    
+    }
+    \end{lstlisting}
+    \end{itemize}
+    
+    \end{itemize}
+
+
+\subsection{Filer}
+
+    \begin{itemize}
+
+    \item C-filerna ska separeras i olika kategorier eller delas upp efter komponenter. T.ex. ska I/O-relaterade funktioner ha en separat ''.c'' fil. 
+    
+    \item Så kallade ''include guards'' bör användas längst upp alla headerfiler för att undvika att dom blir inkluderade 2 gånger. \\
+    Exempel:
+    \begin{lstlisting}
+    #pragma once
+    \end{lstlisting}
+    
+    \item Om det behövs (om en headerfil blir orimligt lång) ska flera headerfiler användas, separerade i olika kategorier. 
+    
+    \end{itemize}
+    
+\subsection{Deklarationer, uttryck, satser}
+
+    \begin{itemize}
+    
+    \item Pekardefintionen '*' ska skrivas brevid variabelnamnet.
+    \begin{lstlisting}
+    //Wrong, j and k does not init as pointers
+    char* i, j, k;
+    //Correct
+    char *i, *j, *k;
+    \end{lstlisting}
+    
+    \item Om ett uttryck känns svårläst, dela upp det i flera rader:
+    \begin{lstlisting}
+    if (x1 < x || y1 < y 
+     && x1 > x && y1 > y) {
+     }
+    \end{lstlisting}
+    
+    \end{itemize}
+    
+    \subsubsection{Funktioner} 
+    
+    \begin{itemize}
+    
+    \item En blockkommentar ska placeras innan varje större funktion för att beskriva vad den gör och beskriva invariabeln samt utvariabeln. Om det inte är enkelt att se hur man använder den, förklara det med.
+    
+    \begin{lstlisting}
+   /*
+    * Calculates a...
+    * Usage: 
+    * Input: 
+    * Output: 
+    */
+    void function(int i){
+    ...
+    }
+    \end{lstlisting}
+    
+    \item ''Måsvingar'' innan och efter funktioner ska placeras som det beskrivs i \ref{sec:måsvingar}.
+    
+    \end{itemize}
+    
+    \subsection{Övrigt}
+    Här läggs mer standarder upp om det behövs.
+    
+\newpage
+
+%%%BIBLIOGRAPHY
+\label{reflist}
+\bibliography{ref}
+\bibliographystyle{IEEEtran} %%IEEETR IS CLASSIC
+    
+\end{document}
